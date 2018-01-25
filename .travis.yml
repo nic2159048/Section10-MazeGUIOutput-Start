@@ -1,0 +1,7 @@
+install: true
+
+script: ./grade.sh Section1Main PublicTestCases
+
+notifications:
+  on_success: always
+  email: algilliland@email.arizona.edu
