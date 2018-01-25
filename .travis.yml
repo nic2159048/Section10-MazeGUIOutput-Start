@@ -1,7 +1,7 @@
 install: true
 
-script: ./grade.sh Section1Main PublicTestCases
+script: ./grade.sh PA?Main PublicTestCases
 
 notifications:
   on_success: always
-  email: algilliland@email.arizona.edu
+  email: your.github.email@whatever.domain
