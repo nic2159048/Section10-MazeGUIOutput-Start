@@ -5,7 +5,7 @@ Today's section will be an introduction to the algorithmic structure of exhausti
 search and will help prepare you for PA3. The first part of the section will be
 to generate all of the binary numbers for an N-bit number, in ascending order. 
 The second part of the section will be to generate all of the possible dice roll
-combinations for 5 six-sided dice. This section will also reinforce your skills 
+combinations for a six sided dice. This section will also reinforce your skills 
 relating to arrays and recursion. 
 
 Exhaustive search is where every possible solution is iterated over. This is also
@@ -14,9 +14,9 @@ solution to think of, but it is usually an inefficient solution. Throughout the
 semester we will introduce you to different search algorithms so you will be able
 to see for yourself. 
 
-We encourage paired programming during section, so please work through the section 
-activity with the student sitting next to you. Remember, in section you can share 
-code. For programming assignments you cannot.
+Reminder: We encourage paired programming during section, so please work through the 
+section activity with the student sitting next to you. Remember, in section you can 
+share code. For programming assignments you cannot.
 
 ## Setup 
 Go to the course webpage, click resources, and then click on the Section 2
@@ -54,7 +54,7 @@ Part Two: Exhaustively print out the dice rolling combinations for 5 six sided d
 
 ### Step 0
 Copy the code below into main and run it to make sure it compiles and prints. 
-  
+This initiates the first TravisCI build.  
 
 ```
         System.out.println("Welcome to Section 2!");
@@ -65,16 +65,15 @@ Right click on Section1Main.java --> Team --> Commit, move unstaged files
 that you want to commit into staged changes, put in a commit message, and 
 then click commit and push.
 
-This initiates the first TravisCI build, do NOT skip this step. 
 
 
 ### Part 1 - Binary Introduction 
 For Part 1 of this section we are not reading in a file from the command line, 
-as this task does not rely on external input. We are creating a class that 
+as this task does not rely on external input. We are completing a class that 
 generates and prints out in ascending order all of the binary representations 
 of the numbers 0-2^N - 1, where N represents the number of bits. 
 
-For example, if N = 2, then the decimal numbers 0-3 and the output would be:
+For example, if N = 2, then the output would be:
 ```
 00
 01
@@ -84,8 +83,8 @@ For example, if N = 2, then the decimal numbers 0-3 and the output would be:
 
 If you would like a more in depth understanding of binary, refer to the lecture 
 slides or do a quick Google search. Additionally, this activity relies on the 
-enumerate and process structure described in class, so you can refer to those 
-slides for a refresher as well. 
+enumerate and process structure described in class, so you should refer to those 
+slides for help while working through this section. 
 
 #### Step 1 
 Start by declaring an integer in main to represent N, the number of bits. Set 
@@ -95,7 +94,7 @@ Travis will be testing your output against the binary numbers of 0-2^5 - 1 in
 ascending order. Although it is not necessary to declare a variable to hold N, 
 since Travis will only test for N = 5,  having a variable declared is better 
 coding style as opposed to leaving 5s floating around in your code. This also 
-allows you to alter your code at one position to see outputs for higher bit 
+allows you to alter your code at a single point to see outputs for higher bit 
 binary numbers.
 
 #### Step 2 
@@ -107,7 +106,7 @@ What parameters do you need with your enumerate method? What do these parameters
 represent? How large should your array be that is holding the selected bits? 
 
 What value, 0 or 1, should you start setting each bit to? What part of the 
-enumeration method relates to changing the bits value? 
+enumeration method relates to changing the bit's value? 
 
 How should you move to the next index of the bit being changed? How will
 you achieve this in your recursive enumeration call? 
@@ -121,15 +120,15 @@ method. To conclude this activity, you need to implement process and select
 a base case condition. Think and discuss with your partner the following 
 questions. 
 
-What two things should be equal for you to stop the recursion? 
+What two parameters should be equal for you to stop the recursion? 
 
 Where should the base case be located in your enumerate function? 
 
-Where should you call process? 
+Where should you call process? What should you pass process as a parameter? 
 
 ### Part Two - Dice Introduction 
 Again, we are not reading in a file from the command line, as this task does 
-not rely on external input. We are creating a class that generates and prints 
+not rely on external input. We are completing a class that generates and prints 
 out in ascending order all of the possible combinations of 5 six-sided dice 
 being rolled. The initial set of rolls outputted will be 11111 and the final 
 set of rolls outputted will be 66666. This activity is very similar to the 
@@ -150,16 +149,18 @@ possible roll combinations. Discuss the following questions with your paired
 programming partner and refer back to your Part 1 decisions if you get stuck.  
 
 What parameters do you need with your enumerate method? What do these parameters
-represent? How large should your array be that is holding the dice rolls? 
+represent? 
 
-What value should you start setting each bit to? Is this a different value than 
-what the binary activity in part 1 was set to? 
+How large should your array be that is holding the value of the dice rolls? 
 
-How should you move to the selecting the value of the next roll? How will
+What value should you start setting each die to? Is this a different value than 
+the start value used during the binary activity? 
+
+How should you move to selecting the value of the next roll? How will
 you achieve this in your recursive enumeration call? 
 
-Look back at the lecture slides to recall the format of the enumerate and 
-process structure and copy over any necessary code. 
+Look back at Part 1 or the lecture slides to recall the format of the enumerate 
+and process structure to copy over any necessary code. 
 
 #### Step 3
 The enumerate and process structure requires a recursive call of the enumerate 
@@ -167,15 +168,17 @@ method. To conclude this activity, you need to implement process and select
 a base case condition. Think and discuss with your partner the following 
 questions. 
 
-What two things should be equal for you to stop the recursion? 
+What two parameters should be equal for you to stop the recursion? 
 
 Where should the base case be located in your enumerate function? 
 
 Where should you call process? 
 
-## Remember to show your SL your output on Eclipse before leaving section.
 
-## Reminders
+*** Remember to show your SL your output on Eclipse before leaving section. *** 
+
+
+## Resources
 
 The Java API and Google are your friend, look up methods to take advantage of 
 Java's libraries. 
