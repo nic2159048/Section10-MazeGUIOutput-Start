@@ -44,6 +44,7 @@ import os
 import json
 import subprocess
 import glob
+from functools import reduce
 
 #######################################
 # global variables
@@ -133,39 +134,35 @@ def formatFloat(inval):
 # Want floats in our score output to all have 2 decimal points
     return float("%.2f" % inval)
 
-def createTestRecord(mainclassname,infile,expected_output_file,
+def createTestRecord(mainclassname,expected_output_file,
                      cmd_str,max_grade_per_test):
 #######################################
 # create a test record for each test
 # run the program and redirect to the "out" file
 # will compare with the given expected_output_file
-# cmd_str will be MAX, LIMIT #, or DEPARTURES
 
     # run the program
-    #print("DEBUG: run_cmd = ","java "+mainclassname+ " "+infile+" "+ cmd_str+" > out")
-    run_cmd = "java "+mainclassname+ " "+infile+" "+ cmd_str+" > out"
+    run_cmd = "java "+mainclassname+ " "+ cmd_str+" > out"
     (run_retcode,run_output) = execCommand(run_cmd)
 
     # do a diff with the generated output and the expected output
-    #print("DEBUG: diff_cmd = ","diff -B -w out "+expected_output_file)
     diff_cmd = "diff -B -w out "+expected_output_file
     (diff_retcode,diff_output) = execCommand(diff_cmd)
         
     # put together all the information in the test record
     if diff_retcode!=0:
         score = 0.0
-        mesg = "Failed " + infile + " " + cmd_str + " test.\n" \
-               + "*********** OUTPUT: Actual output followed by expected.\n"
+        mesg = "Failed " + expected_output_file + " test.\n" \
+               + "*********** DIFF OUTPUT: Actual output followed by expected.\n"
         print(mesg+diff_output)
     else:
         score = max_grade_per_test
-        mesg = "Passed " + infile + " " + cmd_str + " test.\n"
+        mesg = "Passed " + expected_output_file + " test.\n"
         print(mesg)
 
-    basename = os.path.splitext(os.path.basename(infile))[0]
     return { "score"       : formatFloat(score),
              "max_score"   : formatFloat(max_grade_per_test),
-             "name"        : basename+'.csv'+' '+cmd_str,
+             "name"        : expected_output_file,
              "output"      : mesg + diff_output }
 
 
@@ -195,7 +192,7 @@ def parseOutFileName(outfile,outpre,infile_ext):
 # infile_ext is None if there is no infile and a string if the first
 #   command line argument is an infile that needs an extension.
 #    
-# returns (infile name, command str)
+# returns command str for use as command line arguments for program
 #
 # assumming names are in format outpre-infilebase-other-cmd-args.out
 # or outpre-cmd-args.out if there won't be an infile
@@ -215,7 +212,7 @@ def parseOutFileName(outfile,outpre,infile_ext):
         cmd_line_parts[0] = cmd_line_parts[0] + "." + infile_ext
     # concat all the command line arguments with spaces between
     cmd_str = reduce(lambda a,b: a+" "+b, cmd_line_parts, "")
-    print("DEBUG: cmd_str=",cmd_str)
+    #print("DEBUG: cmd_str=",cmd_str)
    
     return (cmd_line_parts[0], cmd_str)
 
@@ -233,12 +230,9 @@ def runTests(mainclassname,testdir,outpre,inext):
     total_score = 0.0
     failed_at_least_once = False
     for outfile in output_files:
-        (infile,cmd_str) = parseOutFileName(os.path.basename(outfile),outpre,inext)
-        #print("DEBUG: infile=",infile)
-        #print("DEBUG: cmd_str=",cmd_str)
-        test_rect = createTestRecord(mainclassname,
-                                     "../"+testdir+"/"+infile,outfile,
-                                     cmd_str,max_grade_per_test)
+        cmd_str = parseOutFileName(os.path.basename(outfile),outpre,inext)
+        test_rect = createTestRecord(mainclassname, outfile, cmd_str,
+                                     max_grade_per_test)
         failed_at_least_once = failed_at_least_once \
                                or (test_rect["score"]==0)
         total_score = total_score + test_rect["score"]
