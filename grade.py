@@ -90,8 +90,11 @@ def copySrcToTempAndCDThere(srcdir, tempdir):
 
     # clean the director of previous files
     try:
+        print(tempdir+"*.java")
         os.remove(tempdir+"*.java")
+        os.remove(tempdir+"*.class")
     except OSError:
+        print("remove didn't work")
         pass
 
     # copy the source code over and move into directory
