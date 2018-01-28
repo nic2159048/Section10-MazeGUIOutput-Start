@@ -14,9 +14,9 @@ solution to think of, but it is usually an inefficient solution. Throughout the
 semester we will introduce you to different search algorithms so you will be able
 to see for yourself. 
 
-Reminder: We encourage paired programming during section, so please work through the 
-section activity with the student sitting next to you. Remember, in section you can 
-share code. For programming assignments you cannot.
+We encourage paired programming during section, so please work through the section 
+activity with the student sitting next to you. Remember, in section you can share 
+code. For programming assignments you cannot.
 
 ## Setup 
 Go to the course webpage, click resources, and then click on the Section 2
