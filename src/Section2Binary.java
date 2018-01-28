@@ -3,15 +3,18 @@
  * 
  * Output all of the binary numbers of N bits
  * via the enumerate and process pattern. The
- * output needs to be in ascending order with 
- * an N = 5 to match the Travis output. 
+ * output needs to be in ascending order
  */
 
 public class Section2Binary {
 
 	public static void main(String[] args) {
-		int N=5;
-		enumerate(N,0,new int[5]);
+        if (args.length < 1) {
+            System.err.print("usage: java Section2Binary N");
+            System.exit(1);
+        }
+        int N = Integer.parseInt(args[0]);
+        enumerate(N, 0, new int[N]);
 	}
 
 	/*
