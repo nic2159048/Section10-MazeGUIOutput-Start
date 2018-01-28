@@ -5,7 +5,7 @@ Today's section will be an introduction to the algorithmic structure of exhausti
 search and will help prepare you for PA3. The first part of the section will be
 to generate all of the binary numbers for an N-bit number, in ascending order. 
 The second part of the section will be to generate all of the possible dice roll
-combinations for a six sided dice. This section will also reinforce your skills 
+combinations for 5 six-sided dice. This section will also reinforce your skills 
 relating to arrays and recursion. 
 
 Exhaustive search is where every possible solution is iterated over. This is also
