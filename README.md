@@ -1,26 +1,27 @@
 # Section2-ExhaustiveSearch-WriteUp 
 
 ## Introduction 
-Today's section will be an introduction to the algorithmic pattern of exhaustive
+Today's section will be an introduction to the algorithmic structure of exhaustive
 search and will help prepare you for PA3. The first part of the section will be
-to generate all of the binary numbers for an n-bit number, in ascending order. 
-The second part of the section will be to generate all of the possible bowling 
-scores for a game with only three frames, treating the third frame as the tenth 
-frame is typically treated.This section will also reinforce your skills relating 
-to arrays. 
+to generate all of the binary numbers for an N-bit number, in ascending order. 
+The second part of the section will be to generate all of the possible dice roll
+combinations for a six sided dice. This section will also reinforce your skills 
+relating to arrays and recursion. 
 
-Exhaustive search is where every possible solution is iterated over, here is a 
-link to the assigned reading assignment relative to exhaustive search: ???
-//TODO: Is there a reading assignment?
+Exhaustive search is where every possible solution is iterated over. This is also
+known as the brute force approach. In many cases, exhaustive search is the simplest
+solution to think of, but it is usually an inefficient solution. Throughout the 
+semester we will introduce you to different search algorithms so you will be able
+to see for yourself. 
 
-We encourage paired programming during section, so please work through the section 
-activity with the student sitting next to you. Remember, in section you can share 
-code. For programming assignments you cannot.
+Reminder: We encourage paired programming during section, so please work through the 
+section activity with the student sitting next to you. Remember, in section you can 
+share code. For programming assignments you cannot.
 
 ## Setup 
 Go to the course webpage, click resources, and then click on the Section 2
 URL.  It will be the URL for accepting the github classroom assignment
-for Section 1.
+for Section 2.
 
 Then you need to edit your .travis.yml file in your section2 repository on 
 github, and then clone and import the Section 2 gitrepo.
@@ -42,11 +43,14 @@ github, and then clone and import the Section 2 gitrepo.
 Now you are ready to start coding. 
 
 ## The Assignment
-Part One: Exhaustively print out 0-2^N, where N is the number of bits, in ascending
+This is the first assignment where you will have multiple classes. Part One should
+be completed in the Section2Binary.java file and Part Two should be completed in the
+Section2Dice.java file. 
+
+Part One: Exhaustively print out 0-2^N - 1, where N is the number of bits, in ascending
 order in binary.  	
 
-Part Two: Exhaustively print out the bowling score possibilities for three frames, 
-treating the third frame as the tenth frame for scoring. 
+Part Two: Exhaustively print out the dice rolling combinations for 5 six sided dice. 
 
 ### Step 0
 Copy the code below into main and run it to make sure it compiles and prints. 
@@ -64,10 +68,10 @@ then click commit and push.
 
 
 ### Part 1 - Binary Introduction 
-For this section we are not reading in file from the command line, we are 
-creating a class that generates and prints out in ascending order all of 
-the binary representations of the numbers 0-2^N - 1, where N represents the 
-number of bits. 
+For Part 1 of this section we are not reading in a file from the command line, 
+as this task does not rely on external input. We are creating a class that 
+generates and prints out in ascending order all of the binary representations 
+of the numbers 0-2^N - 1, where N represents the number of bits. 
 
 For example, if N = 2, then the decimal numbers 0-3 and the output would be:
 ```
@@ -76,9 +80,107 @@ For example, if N = 2, then the decimal numbers 0-3 and the output would be:
 10
 11
 ``` 
-#### Step 1 
-Start by declaring an integer in main to represent N, the number of bits.
 
-### Part Two - Bowling Itroduction 
-Begin by reading over the scoring rules for bowling. These same scoring rules
-will be implemented in PA3. 
+If you would like a more in depth understanding of binary, refer to the lecture 
+slides or do a quick Google search. Additionally, this activity relies on the 
+enumerate and process structure described in class, so you can refer to those 
+slides for a refresher as well. 
+
+#### Step 1 
+Start by declaring an integer in main to represent N, the number of bits. Set 
+this integer equal to 5. 
+
+Travis will be testing your output against the binary numbers of 0-2^5 - 1 in 
+ascending order. Although it is not necessary to declare a variable to hold N, 
+since Travis will only test for N = 5,  having a variable declared is better 
+coding style as opposed to leaving 5s floating around in your code. This also 
+allows you to alter your code at one position to see outputs for higher bit 
+binary numbers.
+
+#### Step 2 
+Consider what decisions need to be made in order to enumerate over all of the 
+binary numbers starting from 00000 and getting to 11111. Discuss the following
+questions with your paired programming partner. 
+
+What parameters do you need with your enumerate method? What do these parameters
+represent? How large should your array be that is holding the selected bits? 
+
+What value, 0 or 1, should you start setting each bit to? What part of the 
+enumeration method relates to changing the bits value? 
+
+How should you move to the next index of the bit being changed? How will
+you achieve this in your recursive enumeration call? 
+
+Look back at the lecture slides to recall the format of the enumerate and 
+process structure and copy over any necessary code. 
+
+#### Step 3
+The enumerate and process structure requires a recursive call of the enumerate 
+method. To conclude this activity, you need to implement process and select
+a base case condition. Think and discuss with your partner the following 
+questions. 
+
+What two things should be equal for you to stop the recursion? 
+
+Where should the base case be located in your enumerate function? 
+
+Where should you call process? 
+
+### Part Two - Dice Introduction 
+Again, we are not reading in a file from the command line, as this task does 
+not rely on external input. We are creating a class that generates and prints 
+out in ascending order all of the possible combinations of 5 six-sided dice 
+being rolled. The initial set of rolls outputted will be 11111 and the final 
+set of rolls outputted will be 66666. This activity is very similar to the 
+previous binary activity, so make sure to complete that activity first and 
+reuse the enumerate and process structure here. 
+
+#### Step 1 
+Start by declaring an integer in main to represent the maximum number of dice 
+to be rolled and set this integer equal to 5. 
+
+Travis will be testing your output against the output for rolling 5 six-sided 
+dice, but again it is good style to use variables to represent a value used
+throughout your code. 
+
+#### Step 2 
+Consider what decisions need to be made in order to enumerate over all of the 
+possible roll combinations. Discuss the following questions with your paired 
+programming partner and refer back to your Part 1 decisions if you get stuck.  
+
+What parameters do you need with your enumerate method? What do these parameters
+represent? How large should your array be that is holding the dice rolls? 
+
+What value should you start setting each bit to? Is this a different value than 
+what the binary activity in part 1 was set to? 
+
+How should you move to the selecting the value of the next roll? How will
+you achieve this in your recursive enumeration call? 
+
+Look back at the lecture slides to recall the format of the enumerate and 
+process structure and copy over any necessary code. 
+
+#### Step 3
+The enumerate and process structure requires a recursive call of the enumerate 
+method. To conclude this activity, you need to implement process and select
+a base case condition. Think and discuss with your partner the following 
+questions. 
+
+What two things should be equal for you to stop the recursion? 
+
+Where should the base case be located in your enumerate function? 
+
+Where should you call process? 
+
+## Remember to show your SL your output on Eclipse before leaving section.
+
+## Reminders
+
+The Java API and Google are your friend, look up methods to take advantage of 
+Java's libraries. 
+
+* System.out.println() is your friend for testing and output 
+* Declaring an array:
+	* int[] array = new int[5]; 
+* Updating a value in an array: 
+	* array[0] = 1; 
