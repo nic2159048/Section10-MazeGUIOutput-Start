@@ -1,7 +1,6 @@
 install: true
 
 script: python grade.py Section2Binary PublicTestCases --outpre binary
-        python grade.py Section2Dice PublicTestCases --outpre dice
 
 notifications:
   on_success: always
