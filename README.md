@@ -54,7 +54,7 @@ Part Two: Exhaustively print out the dice rolling combinations for 5 six sided d
 
 ### Step 0
 Copy the code below into main and run it to make sure it compiles and prints. 
-This initiates the first TravisCI build.  
+  
 
 ```
         System.out.println("Welcome to Section 2!");
@@ -65,6 +65,7 @@ Right click on Section1Main.java --> Team --> Commit, move unstaged files
 that you want to commit into staged changes, put in a commit message, and 
 then click commit and push.
 
+This initiates the first TravisCI build, do NOT skip this step. 
 
 
 ### Part 1 - Binary Introduction 
