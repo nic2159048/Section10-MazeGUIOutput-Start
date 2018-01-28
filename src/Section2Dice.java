@@ -2,13 +2,18 @@
  * Section 2 - Part 2
  * 
  * Output all of the possible dice combinations
- * when rolling 5 six-sided dice. 
+ * when rolling N six-sided dice.
  */
 public class Section2Dice {
 	public static void main(String[] args) {
-		//Five dice game 
-		int maxDice = 5; 
-		enumerate(maxDice, 0, new int[5]);
+        if (args.length < 1) {
+            System.err.print("usage: java Section2Dice N");
+            System.exit(1);
+        }
+
+        // Five dice game
+        int maxDice = Integer.parseInt(args[0]);
+        enumerate(maxDice, 0, new int[maxDice]);
 	}
 	
 	//Covers all dice combinations 
@@ -18,7 +23,7 @@ public class Section2Dice {
 			process(allRolls);
 			return;
 		}
-		for (int i = 1; i <= 6; i++) {//Six sidded die
+        for (int i = 1; i <= 6; i++) {// Six sided die
 			//Set current roll 
 			allRolls[curRoll] = i; 
 			
