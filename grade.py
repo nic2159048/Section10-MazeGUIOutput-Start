@@ -214,7 +214,7 @@ def parseOutFileName(outfile,outpre,infile_ext):
     cmd_str = reduce(lambda a,b: a+" "+b, cmd_line_parts, "")
     #print("DEBUG: cmd_str=",cmd_str)
    
-    return (cmd_line_parts[0], cmd_str)
+    return cmd_str
 
 
 def runTests(mainclassname,testdir,outpre,inext):
