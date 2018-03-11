@@ -1,6 +1,6 @@
 install: true
 
-script: python grade.py Section2Binary PublicTestCases --outpre binary
+script: python grade.py Section7SudokuSearch PublicTestCases --outpre sudoku
 
 notifications:
   on_success: always
