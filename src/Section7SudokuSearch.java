@@ -13,7 +13,8 @@ public class Section7SudokuSearch {
 		enumerate(new int[9][9]);
 
 	}
-	static public boolean enumerate(int[][] puzzle) {
+	
+	public static boolean enumerate(int[][] puzzle) {
 		// Hold row col of unassigned square 
 		DecisionPoint nextMove = findUnassignedLoc(puzzle); 
 		
@@ -67,10 +68,10 @@ public class Section7SudokuSearch {
 	
 	/*
 	 * TODO: Create a method that places the row and column of an empty 
-	 * square into the array rc. 
+	 * square into the DecisionPoint object. 
 	 * 
-	 * Return true if there is an unassigned square and false if the 
-	 * suduko puzzle is full. 
+	 * Return a DecisionPoint object if there is an unassigned square and
+	 * null if the suduko puzzle is full. 
 	 */
 	private static DecisionPoint findUnassignedLoc(int[][] puzzle) {
 		return null;
