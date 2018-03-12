@@ -1,7 +1,0 @@
-install: true
-
-script: python grade.py Section7SudokuSearch PublicTestCases --outpre sudoku
-
-notifications:
-  on_success: always
-  email: your.github.email@whatever.domain
