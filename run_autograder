@@ -4,7 +4,7 @@
 cd /autograder/source/
 
 # Run our grading script, which will produce a results.json
-python grade.py Section2Dice PublicTestCases --outpre dice --gradescope
+python grade.py Section8Main PublicTestCases --outpre graph --gradescope
 if [ $? -eq 0 ]
 then
 	echo "Python run returned 0"
