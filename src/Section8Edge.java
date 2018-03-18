@@ -8,12 +8,12 @@
  * 
  */
 public class Section8Edge implements Comparable<Section8Edge> {
-    private int v1;
-    private int v2; 
+    private int node1;
+    private int node2;
 
-    public Section8Edge(int v, int w) {
-        v1 = v;
-        v2 = w; 
+    public Section8Edge(int n1, int n2) {
+        node1 = n1;
+        node2 = n2;
     }
     
     /*
@@ -23,7 +23,7 @@ public class Section8Edge implements Comparable<Section8Edge> {
      * 
      */
     public String toString() {
-        return "    " + v1 + " -- "+ v2 +";";
+        return "    " + node1 + " -- " + node2 + ";";
     }
     
     /*
@@ -39,10 +39,12 @@ public class Section8Edge implements Comparable<Section8Edge> {
      */
     @Override 
     public boolean equals(Object e) {
-        if (this.v1 == ((Section8Edge)e).v1 && this.v2 == ((Section8Edge)e).v2) {
+        if (this.node1 == ((Section8Edge) e).node1
+                && this.node2 == ((Section8Edge) e).node2) {
             return true; 
         }
-        if (this.v2 == ((Section8Edge)e).v1 && this.v1 == ((Section8Edge)e).v2) {
+        if (this.node2 == ((Section8Edge) e).node1
+                && this.node1 == ((Section8Edge) e).node2) {
             return true; 
         } 
         return false; 
@@ -55,18 +57,20 @@ public class Section8Edge implements Comparable<Section8Edge> {
      * We overrode equals so we need to over ride hashCode. 
      */
     public int hashCode() {
-        return (v1 + v2); 
+        return (node1 + node2);
     }
 
     @Override
-    public int compareTo(Section8Edge o) {
-        int firstPair = this.v1 - o.v1;
-        int secondPair = this.v2 - o.v2;
-        if (firstPair < 0 || firstPair > 0) {
-            return firstPair; 
+    public int compareTo(Section8Edge other) {
+        if (this.equals(other)) {
+            return 0; // this and other are equal 
+        }
+        else if ((node1 < other.node1)
+                || (node1 == other.node1 && node2 < other.node2)) {
+            return -1; // this is less than other
         }
         else {
-            return secondPair; 
+            return 1; // this is greater than other
         }
     }
     
