@@ -36,7 +36,7 @@ public class Section8Graph {
         String str = "graph {\n";
         for (Section8Edge edge : allEdges) {
             str += edge.toString();
-            str += "\n\n\n";
+            str += "\n";
         }
         str += "}";
         return str; 
