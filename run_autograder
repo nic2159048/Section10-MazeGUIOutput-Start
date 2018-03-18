@@ -4,7 +4,7 @@
 cd /autograder/source/
 
 # Run our grading script, which will produce a results.json
-python grade.py Section8Main PublicTestCases --outpre graph --gradescope
+python grade.py Section8Main PublicTestCases --outpre sec8 --inext mtx --gradescope
 if [ $? -eq 0 ]
 then
 	echo "Python run returned 0"

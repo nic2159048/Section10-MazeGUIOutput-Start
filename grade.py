@@ -4,9 +4,9 @@
 #   python grade.py MainClass TestDir [--outpre outfilePrefix] [--inext infileExt] [--gradescope]
 #
 # usage examples:
-#   python grade.py Section2Binary PublicTestCases --outpre binary 
+#   python grade.py Section2Binary PublicTestCases --outpre binary
 #
-# This grade.py is attempting to be more general for 
+# This grade.py is attempting to be more general for
 # programs that accept command line input in addition
 # to or other than an input file name.  It assumes that
 # the output files in the given test directory end in .out.
@@ -22,7 +22,7 @@
 #       The output prefix is "binary".  The program will be run with
 #       the command line "5".
 #
-#   python grade.py --mainclass PA2Main --testdir PublicTestCases --outpre pa2 --inext csv
+#   python grade.py PA2Main PublicTestCases --outpre pa2 --inext csv
 #   outfile: pa2-miniRoutes-MAX.out
 #       If I were going to redo the PA2 testing, this is what to do.
 #       In this one the output prefix is "pa2".
@@ -31,10 +31,10 @@
 
 # If the gradescope options is specified then the source
 # code will be found in "/autograder/submission/".
-# The script always generates a TestingTemp/results.json 
+# The script always generates a TestingTemp/results.json
 # file that could be used by gradescope.
 #
-# Another assumption is that all of the source files are in the 
+# Another assumption is that all of the source files are in the
 # default package and are in the src/ subdirectory.
 # And the actual testing will happen in the testdir.
 # Also assuming the correctness grade is out of 50 points.
@@ -45,6 +45,7 @@ import json
 import subprocess
 import glob
 from functools import reduce
+import shutil
 
 #######################################
 # global variables
@@ -84,21 +85,17 @@ def copySrcToTempAndCDThere(srcdir, tempdir):
 # directory, clean the directory, and then move into that directory.
 # First parameter should be the source directory path.
 # Second parameter should be the temporary directory.
+
+    # force the removal of tempdir
+    if (os.path.exists(tempdir)):
+        shutil.rmtree(tempdir)
+
     # If the temporary directory doesn't already exist make it.
-    if not os.path.exists(tempdir):
-        os.makedirs(tempdir)
+    #if not os.path.exists(tempdir):
+    os.makedirs(tempdir)
 
-    # clean the director of previous files
-    try:
-        print(tempdir+"*.java")
-        os.remove(tempdir+"*.java")
-        os.remove(tempdir+"*.class")
-    except OSError:
-        print("remove didn't work")
-        pass
-
-    # copy the source code over and move into directory
-    os.system("cp "+srcdir+"/*.java "+tempdir)
+    # copy the source code and BoolSat library over to the temp dir
+    os.system("cp " + srcdir + "/*.java " + tempdir)
     os.chdir (tempdir)
 
 def execCommand(commandstr):
@@ -107,7 +104,7 @@ def execCommand(commandstr):
 # if successful then will return (0,stdout)
 # if error then will return (cmdretcode,stderr)
 # commandstr should be something like 'javac PA2Main.java'
-# 
+#
 # reference for this code
 # https://stackoverflow.com/questions/16198546/get-exit-code-and-stderr-from-subprocess-call
     retcode = 0
@@ -145,27 +142,34 @@ def createTestRecord(mainclassname,expected_output_file,
 # will compare with the given expected_output_file
 
     # run the program
-    run_cmd = "java "+mainclassname+ " "+ cmd_str+" > out"
+    #print('java -cp "../lib/*:." '+mainclassname+ " "+ cmd_str+" > out")
+    run_cmd = 'java -cp "../lib/*:." '+mainclassname+ " "+ cmd_str+" > out"
     (run_retcode,run_output) = execCommand(run_cmd)
 
     # do a diff with the generated output and the expected output
     diff_cmd = "diff -B -w out "+expected_output_file
     (diff_retcode,diff_output) = execCommand(diff_cmd)
-        
+
     # put together all the information in the test record
     if diff_retcode!=0:
         score = 0.0
-        mesg = "Failed " + expected_output_file + " test.\n" \
-               + "*********** DIFF OUTPUT: Actual output followed by expected.\n"
-        print(mesg+diff_output)
+        mesg = "Failed " + os.path.basename(expected_output_file) \
+                         + " test.\n" 
+        # showing stdout on gradescope stdout but not diffs
+        # FIXME: using a global variable!
+        if (args.gradescope):
+            print(mesg)
+        mesg=mesg+"******** DIFF OUTPUT: Actual output followed by expected.\n"
+        if (not args.gradescope):
+            print(mesg+diff_output)
     else:
         score = max_grade_per_test
-        mesg = "Passed " + expected_output_file + " test.\n"
+        mesg = "Passed " + os.path.basename(expected_output_file) + " test.\n"
         print(mesg)
 
     return { "score"       : formatFloat(score),
              "max_score"   : formatFloat(max_grade_per_test),
-             "name"        : expected_output_file,
+             "name"        : os.path.basename(expected_output_file),
              "output"      : mesg + diff_output }
 
 
@@ -188,13 +192,13 @@ def compileProgram(mainclassname):
         return (True,mesg_prefix+' SUCCEEDED!\n')
 
 
-def parseOutFileName(outfile,outpre,infile_ext):
+def parseOutFileName(outfile,outpre,infile_path,infile_ext):
 #######################################
 # outfile is the outfile name in format discussed in above file header.
 # outpre is the outfile prefix.  Assuming not passed in if doesn't match.
 # infile_ext is None if there is no infile and a string if the first
 #   command line argument is an infile that needs an extension.
-#    
+#
 # returns command str for use as command line arguments for program
 #
 # assumming names are in format outpre-infilebase-other-cmd-args.out
@@ -211,12 +215,14 @@ def parseOutFileName(outfile,outpre,infile_ext):
     cmd_line_parts.pop(0)
 
     # see if we need to grab an infile base
+    # If there are infiles they HAVE to have an extension.
     if (infile_ext!=None):
-        cmd_line_parts[0] = cmd_line_parts[0] + "." + infile_ext
+        cmd_line_parts[0] = infile_path + cmd_line_parts[0] + "." + infile_ext
+
     # concat all the command line arguments with spaces between
     cmd_str = reduce(lambda a,b: a+" "+b, cmd_line_parts, "")
     #print("DEBUG: cmd_str=",cmd_str)
-   
+
     return cmd_str
 
 
@@ -233,7 +239,8 @@ def runTests(mainclassname,testdir,outpre,inext):
     total_score = 0.0
     failed_at_least_once = False
     for outfile in output_files:
-        cmd_str = parseOutFileName(os.path.basename(outfile),outpre,inext)
+        cmd_str = parseOutFileName(os.path.basename(outfile),outpre,
+                                   "../"+testdir+"/",inext)
         test_rect = createTestRecord(mainclassname, outfile, cmd_str,
                                      max_grade_per_test)
         failed_at_least_once = failed_at_least_once \
@@ -256,6 +263,9 @@ copySrcToTempAndCDThere(srcdir, tempdir)
 # see https://gradescope-autograders.readthedocs.io/en/latest/specs/
 # for format of json file that will come from results_dict
 results_dict = {}
+results_dict["visibility"] = "after_due_date"
+# because this will be similar to what they see in Travis
+results_dict["stdout_visibility"] = "visible"
 
 #### try to compile the program
 (compile_succeeded,compile_msg) = compileProgram(args.mainclass)
@@ -271,8 +281,8 @@ else:
     results_dict["score"] = 0.0
     failed_at_least_once = True
 
-# Testing output to stdout and the results.json file
-print("score = "+str(results_dict["score"])+" out of "+str(totalpoints))
+# Send testing output to stdout and the results.json file
+# NOT printing score to stdout on purpose.
 results_file = open(gradescope_outfile,"w")
 json=json.dumps(results_dict, sort_keys=True, indent=4, separators=(',', ': '))
 results_file.write(json)
