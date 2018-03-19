@@ -50,37 +50,59 @@ import java.util.Scanner;
  * 
  */
 public class Section8Main {
+
     public static void main(String[] args) throws FileNotFoundException {
-        Scanner in = new Scanner(new File(args[0]));
-        in.nextLine();
-        in.nextLine(); 
-        while (in.hasNext("%")) {
-           in.nextLine();
-        }
-        in.nextLine();
+
+
+
+
+        Scanner in = null; 
+
         
-        String fileInfo = in.nextLine(); 
-        String[] fileInfoSplit = fileInfo.split(" "); 
-        int numNodes = Math.max(Integer.parseInt(fileInfoSplit[0].trim()),
-                Integer.parseInt(fileInfoSplit[1].trim()));
+
+        // Skip over comment lines, consider looking at the Java API for use of hasNext method
+
+
+
+
+        // Parse the file info line that tells the number of rows, columns and entries 
+
         
-        int entries = Integer.parseInt(fileInfoSplit[2].trim()); 
+
+        int numNodes = 0; // update to reflect the number of nodes expected in the graph
+
+        
+
+        // Create a graph to place each entry line into 
 
         Section8Graph graph = new Section8Graph(numNodes); 
 
-        for (int i = 0; i < entries; i++) {            
-            int r = in.nextInt();
-            int c = in.nextInt();
-            if (r != c) {
-                graph.add(r, c);
 
-            }
-        }
+
+
+        // Loop over the entry lines, parse them and enter them into your graph 
+
+
+
+
+        // Write to a .dot file in order to visualize your graph 
+
         PrintWriter writer = new PrintWriter("graph.dot"); 
+
         
+
         writer.println(graph.toString());
+
         writer.close();
+
+        
+
+        // Print out your graph for debugging purposes 
+
         System.out.println(graph.toString());
+
     }
+
     
+
 }
