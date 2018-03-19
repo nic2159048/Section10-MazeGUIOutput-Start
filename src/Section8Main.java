@@ -5,9 +5,7 @@ import java.util.Scanner;
 
 /**
  * 
- * KEY
  * 
- * @author AlexandraGilliland
  *         This class reads in the input file described below and creates a
  *         graph from it. Beginning
  *         lines that are comments are ignored and nodes that map to themselves
