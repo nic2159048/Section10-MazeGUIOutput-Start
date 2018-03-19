@@ -10,10 +10,12 @@ import java.util.TreeSet;
  */
 public class Section8Graph {
    
-    TreeSet<Section8Edge> allEdges; 
+    private TreeSet<Section8Edge> allEdges;
+    private int totalNodes;
     
-    public Section8Graph() {
+    public Section8Graph(int numNodes) {
         allEdges = new TreeSet<Section8Edge>(); 
+        totalNodes = numNodes;
     }
 
     /*
@@ -34,6 +36,9 @@ public class Section8Graph {
     public String toString() {
 
         String str = "graph {\n";
+        for (int i = 1; i <= totalNodes; i++) {
+            str += "        " + i + ";\n";
+        }
         for (Section8Edge edge : allEdges) {
             str += edge.toString();
             str += "\n";
