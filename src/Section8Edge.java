@@ -68,7 +68,7 @@ public class Section8Edge implements Comparable<Section8Edge> {
 
      *      1 -- 3 == 1 -- 3 is true 
 
-     *      1 -- 3 == 1 -- 3 is false  
+     *      1 -- 3 == 1 -- 4 is false  
 
      */
 
