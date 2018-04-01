@@ -1,5 +1,5 @@
-# Section8-Graph-WriteUp 
+# Section10-MazeGUIOutput-Start.git
 
-Key for Section 8.  See
-https://github.com/UACS210Spring2018/PA-and-Section-Writeups/tree/master/Section8-Graph-Writeup
+Writeup for Section 10.  See
+https://github.com/UACS210Spring2018/Section10-MazeGUIOutput-Start.git
 for the writeup.
