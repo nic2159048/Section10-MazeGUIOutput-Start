@@ -16,7 +16,7 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 public class Drawing extends Application {
-    // 25 x 25 pixle square
+    // 25 x 25 pixel square
     final int SIZE = 25;
     // Points needed to draw a triangle
     final int TRIANGLE = 3;
@@ -36,7 +36,7 @@ public class Drawing extends Application {
         // Initialized canvas to a default size for demo
         int DEMO = 10;
 
-        // TODO: parameterize so that the canvas is initizlied to the length and
+        // TODO: parameterize so that the canvas is initialized to the length and
         // width of the maze
         Canvas canvas = new Canvas(DEMO * SIZE, DEMO * SIZE);
 
@@ -80,7 +80,7 @@ public class Drawing extends Application {
     }
 
     /*
-     * readMaze accepts a string arguement that is the file name
+     * readMaze accepts a string argument that is the file name
      * 
      * TODO: Process the file and place its contents in the 2D
      * array Maze. This 2D array will be returned so that you
