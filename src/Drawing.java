@@ -7,6 +7,10 @@
  * Adapted from the Section 10 code from CS210 Fall 2018.
  * 
  */
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
+
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -28,17 +32,17 @@ public class Drawing extends Application {
     @Override
     public void start(Stage primaryStage) {
         // Process the input file and store it in a 2D array of characters
-        char[][] maze = readMaze("PublicTestCases/maze_01.txt");
+        char[][] maze = readMaze("PublicTestCases/maze_02.txt");
+
         primaryStage.setTitle("A-maze-ing!");
 
         Group root = new Group();
 
-        // Initialized canvas to a default size for demo
-        int DEMO = 10;
+
 
         // TODO: parameterize so that the canvas is initialized to the length and
         // width of the maze
-        Canvas canvas = new Canvas(DEMO * SIZE, DEMO * SIZE);
+        Canvas canvas = new Canvas(maze.length * SIZE, maze[1].length * SIZE);
 
         GraphicsContext gc = canvas.getGraphicsContext2D();
         root.getChildren().add(canvas);
@@ -55,26 +59,46 @@ public class Drawing extends Application {
      */
     public void initScreenMaze(GraphicsContext gc, char[][] maze) {
         // default is yellow because it is a corn maze
-        gc.setFill(Color.YELLOW);
+
 
         // Demo starting points
         int S_POINT = 0; // Start location for square
-        int T_POINT = 2; // Start location for triangle
+        // Start location for triangle
 
         // Example square drawn
-        gc.fillRect(S_POINT * SIZE, S_POINT * SIZE, SIZE, SIZE);
+        for (int i = 0; i < maze.length; i++) {
+            for (int j = 0; j < maze[i].length; j++) {
+                if (maze[i][j] == '*') {
+                    gc.setFill(Color.YELLOW);
+                    gc.fillRect(j * SIZE, i * SIZE, SIZE, SIZE);
+                }
+                else if (maze[i][j] == 'S') {
+                    gc.setFill(Color.BLUE);
+                    gc.fillRect(j * SIZE, i * SIZE, SIZE, SIZE);
+                } else if (maze[i][j] == 'E') {
+                    gc.setFill(Color.GREEN);
+                    int T_POINT = i;
+                    int Y_POINT = j;
+                    // Two arrays that correspond to the points of the triangle
+                    // to be drawn
+                    double[] yPoints = new double[] {
+                            (double) (T_POINT * SIZE + SIZE),
+                            (double) SIZE * T_POINT,
+                            (double) (SIZE * T_POINT + SIZE) };
+                    double[] xPoints = new double[] { (double) Y_POINT * SIZE,
+                            (double) (SIZE * Y_POINT + (SIZE / 2)),
+                            (double) (SIZE * Y_POINT + SIZE) };
+                    // Could just pass arrays straight into fillPolygon
+                    gc.fillPolygon(xPoints, yPoints, TRIANGLE);
+                    // gc.fillRect(j * SIZE, i * SIZE, SIZE, SIZE);
+
+                }
+            }
+        }
+
 
         // Example triangle drawn
-        gc.setFill(Color.BLUE);
-        // Two arrays that correspond to the points of the triangle to be drawn
-        double[] yPoints = new double[] {
-                (double) (T_POINT * SIZE + SIZE), (double) SIZE * T_POINT,
-                (double) (SIZE * T_POINT + SIZE) };
-        double[] xPoints = new double[] { (double) T_POINT * SIZE,
-                (double) (SIZE * T_POINT + (SIZE / 2)),
-                (double) (SIZE * T_POINT + SIZE) };
-        // Could just pass arrays straight into fillPolygon
-        gc.fillPolygon(xPoints, yPoints, TRIANGLE);
+
 
 
     }
@@ -87,8 +111,32 @@ public class Drawing extends Application {
      * are able to iterate over it when drawing on the Canvas.
      */
     public char[][] readMaze(String fileName) {
-        char[][] maze = null;
 
+        // Initializes file and scanner
+        File file = new File(fileName);
+        Scanner in = null;
+        // error handling for missing file
+        try {
+            in = new Scanner(file);
+        } catch (FileNotFoundException e) {
+            System.out.println("ERROR: File not found");
+            System.exit(1);
+        }
+        String rc = in.nextLine();
+        String[] nums = rc.split(" ");
+        int rows = Integer.valueOf(nums[0]);
+        int cols = Integer.valueOf(nums[0]);
+
+        char[][] maze = new char[rows][cols];
+        String hold = null;
+        char[] chars = null;
+        for (int i = 0; i < rows; i++) {
+            hold = in.nextLine();
+            chars = hold.toCharArray();
+            for (int j = 0; j < cols; j++) {
+                maze[i][j] = chars[j];
+            }
+        }
         return maze;
     }
 
